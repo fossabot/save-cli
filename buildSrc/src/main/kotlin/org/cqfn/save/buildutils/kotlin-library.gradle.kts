@@ -25,7 +25,7 @@ kotlin {
             }
         }
     }
-    val nativeTargets = listOf(linuxX64(), mingwX64(), macosX64())
+    val nativeTargets = listOf(linuxX64(), mingwX64(), macosX64(), linuxArm64())
 
     if (hasProperty("disableRedundantTargets") && (property("disableRedundantTargets") as String?) != "false") {
         // with this flag we exclude targets that are present on multiple OS to speed up build
