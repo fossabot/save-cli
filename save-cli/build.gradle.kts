@@ -20,8 +20,8 @@ kotlin {
         os.isWindows -> mingwX64()
         os.isLinux -> {
             when (arch.name) {
-                "x86_64" -> linuxX64()
-                "arm64" -> linuxArm64()
+                "x86-64" -> linuxX64()
+                "arm64", "aarch64" -> linuxArm64()
                 else -> throw GradleException("Unknown architecture ${arch.name} for system $os")
             }
         }
