@@ -1,5 +1,4 @@
 import org.cqfn.save.buildutils.configurePublishing
-import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentArchitecture
 
 import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentOperatingSystem
 import org.jetbrains.kotlin.gradle.targets.jvm.tasks.KotlinJvmTest
@@ -15,19 +14,12 @@ repositories {
 kotlin {
     jvm()
     val os = getCurrentOperatingSystem()
-    val arch = getCurrentArchitecture()
-    val saveTarget = listOf(when {
-        os.isWindows -> mingwX64()
-        os.isLinux -> {
-            when (arch.name) {
-                "x86-64" -> linuxX64()
-                "arm64", "aarch64" -> linuxArm64()
-                else -> throw GradleException("Unknown architecture ${arch.name} for system $os")
-            }
-        }
-        os.isMacOsX -> macosX64()
+    val saveTarget = when {
+        os.isWindows -> listOf(mingwX64())
+        os.isLinux -> listOf(linuxX64(), linuxArm64())
+        os.isMacOsX -> listOf(macosX64())
         else -> throw GradleException("Unknown operating system $os")
-    })
+    }
 
     configure(saveTarget) {
         binaries {
