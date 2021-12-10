@@ -25,3 +25,5 @@ actual fun writeToConsole(msg: String, outputType: OutputStreamType) {
         else -> return
     }
 }
+
+actual fun getThreadId(): Long = Thread.currentThread().id

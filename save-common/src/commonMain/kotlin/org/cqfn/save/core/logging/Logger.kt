@@ -12,6 +12,7 @@ import org.cqfn.save.core.utils.writeToStream
 import kotlinx.datetime.Clock
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
+import org.cqfn.save.core.utils.getThreadId
 
 /**
  *  Logging mode
@@ -41,7 +42,7 @@ fun logMessage(
     } else {
         ""
     }
-    writeToStream("[$level]$currentTime: $msg", stream)
+    writeToStream("[$level][tid ${getThreadId()}] $currentTime: $msg", stream)
 }
 
 /**

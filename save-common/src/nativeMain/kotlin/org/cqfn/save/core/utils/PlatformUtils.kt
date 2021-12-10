@@ -11,6 +11,7 @@ import org.cqfn.save.core.config.OutputStreamType
 
 import platform.posix.fflush
 import platform.posix.fprintf
+import platform.posix.pthread_self
 import platform.posix.stderr
 import platform.posix.stdout
 
@@ -103,3 +104,8 @@ fun processStandardStreams(msg: String, output: OutputStreamType) {
     fprintf(stream, msg.escapePercent() + "\n")
     fflush(stream)
 }
+
+/**
+ * FixMe: This is not actually ID, but will return unique values per thread
+ */
+actual fun getThreadId(): Long = pthread_self().toLong()

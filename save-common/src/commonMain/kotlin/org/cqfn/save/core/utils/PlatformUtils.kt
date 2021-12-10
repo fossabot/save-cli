@@ -84,3 +84,5 @@ fun writeToStream(msg: String, outputType: OutputStreamType) {
  * @param outputType output stream: stdout or stderr
  */
 expect fun writeToConsole(msg: String, outputType: OutputStreamType)
+
+expect fun getThreadId(): Long

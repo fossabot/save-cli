@@ -2,6 +2,8 @@
 
 package org.cqfn.save.core.utils
 
+import org.cqfn.save.core.logging.logTrace
+
 import okio.Path
 import platform.posix.system
 
@@ -36,13 +38,17 @@ actual class ProcessBuilderInternal actual constructor(
 
         runBlocking {
             val timeOut = async(newSingleThreadContext("timeOut")) {
+                logTrace("Starting to measure time for process `$cmd` execution, timeout is set to $timeOutMillis ms")
                 delay(timeOutMillis)
+                logTrace("Timeout is reached, will try to destroy the process `$cmd`")
                 destroy(cmd)
                 throw ProcessTimeoutException(timeOutMillis, "Timeout is reached: $timeOutMillis")
             }
 
             val command = async {
+                logTrace("Starting process `$cmd` using `system(...)`")
                 status = system(cmd)
+                logTrace("Process `$cmd` has completed with code $status, will now cancel monitoring coroutine")
                 timeOut.cancel()
             }
             joinAll(timeOut, command)
@@ -60,6 +66,8 @@ actual class ProcessBuilderInternal actual constructor(
         } else {
             "pkill \"$cmd\""
         }
+        logTrace("Destroying process using command `$killCmd`")
         system(killCmd)
+        logTrace("Finished destroying process using command `$killCmd`")
     }
 }

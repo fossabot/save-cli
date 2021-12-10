@@ -28,3 +28,5 @@ actual fun getCurrentOs(): CurrentOs = error("Not implemented for JS")
 actual fun writeToConsole(msg: String, outputType: OutputStreamType) {
     error("Not implemented for JS")
 }
+
+actual fun getThreadId(): Long = error("Not implemented for JS")
